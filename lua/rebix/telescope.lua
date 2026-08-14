@@ -8,11 +8,23 @@ vim.pack.add({
 	{
 		src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim",
 	},
+	{
+		src = "https://github.com/nvim-telescope/telescope-ui-select.nvim",
+	},
 })
 
-require("telescope").setup({})
+local telescope = require("telescope")
 
-require("telescope").load_extension("fzf")
+telescope.setup({
+	extensions = {
+		["ui-select"] = {
+			require("telescope.themes").get_dropdown({}),
+		},
+	},
+})
+
+telescope.load_extension("fzf")
+telescope.load_extension("ui-select")
 
 local preview_utils = require("telescope.previewers.utils")
 

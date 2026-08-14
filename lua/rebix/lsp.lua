@@ -1,10 +1,9 @@
 vim.pack.add({
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 
-	{ src = "https://github.com/stevearc/conform.nvim" },
-
 	{ src = "https://github.com/williamboman/mason.nvim" },
 	{ src = "https://github.com/williamboman/mason-lspconfig.nvim" },
+	{ src = "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim" },
 
 	{ src = "https://github.com/hrsh7th/nvim-cmp" },
 	{ src = "https://github.com/hrsh7th/cmp-nvim-lsp" },
@@ -17,11 +16,7 @@ vim.pack.add({
 
 	{ src = "https://github.com/j-hui/fidget.nvim" },
 
-    { src = "https://github.com/windwp/nvim-autopairs" },
-})
-
-require("conform").setup({
-	formatters_by_ft = {},
+	{ src = "https://github.com/windwp/nvim-autopairs" },
 })
 
 require("fidget").setup({})
@@ -35,7 +30,15 @@ require("mason-lspconfig").setup({
 		"lua_ls",
 		"vtsls",
 		"tailwindcss",
-        "pyright",
+		"pyright",
+	},
+})
+
+require("mason-tool-installer").setup({
+	ensure_installed = {
+		"prettierd",
+		"stylua",
+		"clang-format",
 	},
 })
 
@@ -91,7 +94,7 @@ vim.lsp.enable({
 	"lua_ls",
 	"vtsls",
 	"tailwindcss",
-    "pyright",
+	"pyright",
 })
 
 local cmp = require("cmp")
@@ -100,10 +103,7 @@ local cmp_select = {
 }
 
 local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-cmp.event:on(
-	"confirm_done",
-	cmp_autopairs.on_confirm_done()
-)
+cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
 cmp.setup({
 	snippet = {
@@ -122,9 +122,29 @@ cmp.setup({
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
 		{ name = "luasnip" },
+		{ name = "path" },
 	}, {
 		{ name = "buffer" },
 	}),
+})
+
+cmp.setup.cmdline({ "/", "?" }, {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = {
+		{ name = "buffer" },
+	},
+})
+
+cmp.setup.cmdline(":", {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = cmp.config.sources({
+		{ name = "path" },
+	}, {
+		{ name = "cmdline" },
+	}),
+	matching = {
+		disallow_symbol_nonprefix_matching = false,
+	},
 })
 
 vim.diagnostic.config({

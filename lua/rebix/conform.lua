@@ -2,6 +2,8 @@ vim.pack.add({
     { src = "https://github.com/stevearc/conform.nvim" }
 })
 
+local prettier_ft = { "prettierd", "prettier", stop_after_first = true }
+
 require("conform").setup({
     format_on_save = {
         timeout_ms = 5000,
@@ -11,13 +13,10 @@ require("conform").setup({
         c = { "clang-format" },
         cpp = { "clang-format" },
         lua = { "stylua" },
-        javascript = { "prettier" },
-        typescript = { "prettier" },
-        json = { "prettier" },
+        javascript = prettier_ft,
+        typescript = prettier_ft,
+        javascriptreact = prettier_ft,
+        typescriptreact = prettier_ft,
+        json = prettier_ft,
     },
-    -- formatters = {
-    --     ["clang-format"] = {
-    --         prepend_args = { "-style=file", "-fallback-style=LLVM" },
-    --     },
-    -- },
 })

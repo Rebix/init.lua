@@ -10,7 +10,4 @@ vim.keymap.set({ "n", "v" }, "d", '"_d', { desc = "Delete without copying" })
 
 vim.keymap.set("n", "-", "<cmd>Ex<CR>")
 
-vim.keymap.set("n", "<leader>r", function()
-  dofile(vim.env.MYVIMRC)
-  vim.notify("Neovim config reloaded")
-end, { desc = "Reload Neovim config" })
+vim.keymap.set("n", "<leader>r", "<cmd>restart<CR>", { desc = "Reload Neovim config" })
