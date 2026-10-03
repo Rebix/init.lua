@@ -1,2 +1,1 @@
-require("rebix")
-
+require("config")
