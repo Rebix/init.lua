@@ -15,6 +15,3 @@ nvim
 ```
 
 Plugins, language servers, and formatters are installed automatically on first launch.
-
-The leader key is `Space`. Use `<leader><leader>` to find files, `<leader>F` to search text, `<leader>h` for
-Harpoon, `<leader>u` for the undo tree, and `<leader>lf` to format.
