@@ -38,6 +38,7 @@ vim.pack.add({
   github("mbbill/undotree"),
   github("folke/which-key.nvim"),
   github("lewis6991/gitsigns.nvim"),
+  github("nvim-mini/mini.nvim"),
   github("rebelot/kanagawa.nvim"),
   github("mason-org/mason.nvim"),
   github("neovim/nvim-lspconfig"),
@@ -47,6 +48,7 @@ vim.pack.add({
 }, { confirm = false, load = true })
 
 require("plugins.colorscheme")
+require("plugins.mini-statusline")
 require("plugins.treesitter")
 require("plugins.guess-indent")
 require("plugins.telescope")
