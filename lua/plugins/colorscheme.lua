@@ -26,6 +26,7 @@ local transparent_groups = {
   "FoldColumn",
   "StatusLine",
   "StatusLineNC",
+  "MiniStatuslineFilename",
   "WinBar",
   "WinBarNC",
   "MsgArea",
@@ -45,20 +46,26 @@ local transparent_groups = {
   "WhichKeyNormal",
 }
 
-local function clear_background(group)
-  local highlight = vim.api.nvim_get_hl(0, { name = group, link = false })
-  highlight.bg = nil
-  highlight.ctermbg = nil
-  vim.api.nvim_set_hl(0, group, highlight)
-end
-
-function ColorMyPencils(color)
-  color = color or "kanagawa-dragon"
-  vim.cmd.colorscheme(color)
-
+local function apply_transparency()
   for _, group in ipairs(transparent_groups) do
-    clear_background(group)
+    local hl = vim.api.nvim_get_hl(0, { name = group, link = false })
+    hl.bg = nil
+    hl.ctermbg = nil
+    vim.api.nvim_set_hl(0, group, hl)
   end
 end
 
-ColorMyPencils()
+local function color_my_pencils(color)
+  color = color or "kanagawa-dragon"
+  vim.cmd.colorscheme(color)
+  apply_transparency()
+end
+
+-- Re-apply after any colorscheme change (e.g. :colorscheme) so transparency stays centralized.
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = apply_transparency,
+})
+
+color_my_pencils()
+
+return { apply = apply_transparency }

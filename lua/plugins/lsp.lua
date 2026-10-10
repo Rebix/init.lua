@@ -40,11 +40,20 @@ require("mason-lspconfig").setup({
 
 -- Keep every external tool required by this configuration installed.
 require("mason-tool-installer").setup({
-  ensure_installed = vim.list_extend(vim.deepcopy(servers), {
+  ensure_installed = {
+    "vtsls",
+    "tailwindcss",
+    "eslint",
+    "html",
+    "cssls",
+    "jsonls",
+    "lua_ls",
+    "basedpyright",
+    "ruff",
     "prettier",
     "rustywind",
     "stylua",
-  }),
+  },
   auto_update = false,
   run_on_start = true,
 })
@@ -54,10 +63,18 @@ vim.opt.completeopt = { "menuone", "noselect", "popup" }
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(event)
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, {
-      buffer = event.buf,
-      desc = "Go to definition",
-    })
+    local map = function(mode, lhs, rhs, desc)
+      vim.keymap.set(mode, lhs, rhs, { buffer = event.buf, desc = desc })
+    end
+    map("n", "gd", vim.lsp.buf.definition, "Go to definition")
+    map("n", "grr", vim.lsp.buf.references, "Go to references")
+    map("n", "grn", vim.lsp.buf.rename, "Rename symbol")
+    map({ "n", "x" }, "gra", vim.lsp.buf.code_action, "Code action")
+    map("n", "gO", vim.lsp.buf.document_symbol, "Document symbols")
+    map("n", "K", vim.lsp.buf.hover, "Hover documentation")
+    map("n", "<C-s>", vim.lsp.buf.signature_help, "Signature help")
+    map("i", "<C-s>", vim.lsp.buf.signature_help, "Signature help")
+
     local client = vim.lsp.get_client_by_id(event.data.client_id)
     if client and client:supports_method("textDocument/completion") then
       vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })

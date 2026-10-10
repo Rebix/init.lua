@@ -84,11 +84,5 @@ MiniStatusline.setup({
   },
 })
 
-for _, name in ipairs({ "StatusLine", "StatusLineNC", "MiniStatuslineFilename" }) do
-  local fg = vim.api.nvim_get_hl(0, { name = name }).fg
-
-  vim.api.nvim_set_hl(0, name, {
-    fg = fg,
-    bg = "NONE",
-  })
-end
+-- Transparency is centralized in colorscheme.lua; re-apply after mini sets its highlights.
+require("plugins.colorscheme").apply()

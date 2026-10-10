@@ -1,5 +1,10 @@
 local telescope = require("telescope")
 local builtin = require("telescope.builtin")
+local pickers = require("telescope.pickers")
+local finders = require("telescope.finders")
+local actions = require("telescope.actions")
+local action_state = require("telescope.actions.state")
+local telescope_config = require("telescope.config").values
 
 telescope.setup({
   extensions = {
@@ -25,17 +30,16 @@ vim.keymap.set("n", "<leader>fg", builtin.git_status, { desc = "Find git changes
 -- directory (~/Projects or ~/Documents/Projects, whichever this machine has);
 -- each project gets its own tab with its own working directory, and lands in
 -- find-files.
-vim.keymap.set("n", "<leader>fp", function()
+local function pick_project()
   local dirs = {}
   for _, root in ipairs({
     vim.env.HOME .. "/Projects",
     vim.env.HOME .. "/Documents/Projects",
   }) do
     if vim.fn.isdirectory(root) == 1 then
-      for _, dir in ipairs(vim.fn.glob(root .. "/*", false, true)) do
-        dir = dir:gsub("/+$", "")
-        if dir ~= "" then
-          table.insert(dirs, dir)
+      for name, type in vim.fs.dir(root) do
+        if type == "directory" then
+          table.insert(dirs, root .. "/" .. name)
         end
       end
     end
@@ -45,17 +49,11 @@ vim.keymap.set("n", "<leader>fp", function()
   table.insert(dirs, vim.env.HOME .. "/.config/nvim")
   table.sort(dirs)
 
-  local pickers = require("telescope.pickers")
-  local finders = require("telescope.finders")
-  local actions = require("telescope.actions")
-  local action_state = require("telescope.actions.state")
-  local telescope_config = require("telescope.config").values
-
   pickers
     .new({}, {
       prompt_title = "Switch project",
       finder = finders.new_table({ results = dirs }),
-      sorter = telescope_config.generic_sorter(),
+      sorter = telescope_config.generic_sorter({}),
       attach_mappings = function(prompt_bufnr)
         actions.select_default:replace(function()
           local entry = action_state.get_selected_entry()
@@ -78,4 +76,6 @@ vim.keymap.set("n", "<leader>fp", function()
       end,
     })
     :find()
-end, { desc = "Find project" })
+end
+
+vim.keymap.set("n", "<leader>fp", pick_project, { desc = "Find project" })
