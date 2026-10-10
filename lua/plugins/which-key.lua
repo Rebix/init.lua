@@ -6,6 +6,7 @@ which_key.setup({
 
 which_key.add({
   { "<leader>f", group = "Find" },
+  { "<leader>g", group = "Git" },
   { "<leader>l", group = "Language tools" },
 })
 

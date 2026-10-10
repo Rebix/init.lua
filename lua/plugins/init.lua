@@ -37,6 +37,7 @@ vim.pack.add({
   { src = github("ThePrimeagen/harpoon"), version = "harpoon2" },
   github("mbbill/undotree"),
   github("folke/which-key.nvim"),
+  github("lewis6991/gitsigns.nvim"),
   github("rebelot/kanagawa.nvim"),
   github("mason-org/mason.nvim"),
   github("neovim/nvim-lspconfig"),
@@ -51,6 +52,7 @@ require("plugins.guess-indent")
 require("plugins.telescope")
 require("plugins.harpoon")
 require("plugins.undotree")
+require("plugins.gitsigns")
 require("plugins.lsp")
 require("plugins.formatting")
 require("plugins.which-key")
