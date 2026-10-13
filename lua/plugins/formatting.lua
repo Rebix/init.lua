@@ -23,6 +23,7 @@ local tailwind_filetypes = {
   javascriptreact = true,
   typescript = true,
   typescriptreact = true,
+  json = true,
 }
 
 local formatters_by_ft = {}
