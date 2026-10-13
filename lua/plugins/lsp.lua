@@ -33,12 +33,10 @@ vim.lsp.config("ruff", {
   end,
 })
 
--- Enable each server when Mason finishes installing it.
 require("mason-lspconfig").setup({
   automatic_enable = servers,
 })
 
--- Keep every external tool required by this configuration installed.
 require("mason-tool-installer").setup({
   ensure_installed = {
     "vtsls",
@@ -72,8 +70,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map({ "n", "x" }, "gra", vim.lsp.buf.code_action, "Code action")
     map("n", "gO", vim.lsp.buf.document_symbol, "Document symbols")
     map("n", "K", vim.lsp.buf.hover, "Hover documentation")
-    map("n", "<C-s>", vim.lsp.buf.signature_help, "Signature help")
-    map("i", "<C-s>", vim.lsp.buf.signature_help, "Signature help")
+    map("n", "<C-space>", vim.lsp.buf.signature_help, "Signature help")
+    map("i", "<C-space>", vim.lsp.buf.signature_help, "Signature help")
 
     local client = vim.lsp.get_client_by_id(event.data.client_id)
     if client and client:supports_method("textDocument/completion") then
@@ -82,6 +80,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
-vim.keymap.set("i", "<C-Space>", function()
+vim.keymap.set("i", "<C-s>", function()
   vim.lsp.completion.get()
 end, { desc = "Trigger LSP completion" })

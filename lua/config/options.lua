@@ -46,14 +46,11 @@ vim.opt.confirm = true
 
 vim.opt.mouse = "a"
 
-vim.opt.colorcolumn = "100"
-
 vim.opt.showmatch = true
 vim.opt.pumheight = 10
 vim.opt.pumblend = 10
 vim.opt.fillchars = { eob = " " }
 
--- Reuse the explorer window, hide its banner, and size explorer splits at 25%.
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25

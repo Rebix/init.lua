@@ -1,4 +1,3 @@
--- Git signs in the gutter plus hunk-level staging, resetting, blaming, and diffing.
 require("gitsigns").setup({})
 
 -- Jump between changed blocks; inside a diff keep using the built-in ]c/[c jumps.
@@ -36,7 +35,6 @@ vim.keymap.set("n", "<leader>gD", "<cmd>Gitsigns diffthis ~<cr>", { desc = "Diff
 -- Treat the hunk under the cursor as a text object: vih selects it, dih deletes it.
 vim.keymap.set({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<cr>", { desc = "Inner hunk" })
 
--- Run git asynchronously; failures surface as a notification.
 local run_git = function(args, on_success)
   local command = vim.list_extend({ "git" }, args)
   vim.system(command, { text = true }, function(result)
@@ -52,7 +50,6 @@ local run_git = function(args, on_success)
   end)
 end
 
--- Ask for a commit message, optionally stage something first, then commit.
 local commit = function(stage_first)
   vim.ui.input({ prompt = "Commit message: " }, function(message)
     if not message or message == "" then
@@ -71,7 +68,6 @@ local commit = function(stage_first)
   end)
 end
 
--- Commit what was staged with <leader>gs, everything with <leader>gC, then push upstream.
 vim.keymap.set("n", "<leader>gc", function()
   commit()
 end, { desc = "Commit staged changes" })

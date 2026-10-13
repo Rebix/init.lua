@@ -1,10 +1,7 @@
--- Statusline via mini.statusline with a custom content function: filename on
-the left; diagnostic counts, search count, macro recording, and the filetype
-with its nerd font icon on the right.
 local MiniStatusline = require("mini.statusline")
 local MiniIcons = require("mini.icons")
 
-MiniIcons.setup()
+MiniIcons.setup({ colors = false })
 
 local diagnostic_config = {
   {
@@ -30,27 +27,19 @@ local diagnostic_config = {
 }
 
 local content = function()
-  local filename = MiniStatusline.section_filename({ trunc_width = 9999 })
+  local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
+  local filename = MiniStatusline.section_filename({ trunc_width = 120 })
   local search = MiniStatusline.section_searchcount({ trunc_width = 0 })
-  local mode = vim.bo.mode
   local recording = vim.fn.reg_recording()
 
   local groups = {
-    -- Mode indicator (left side)
     {
-      hl = "MiniStatuslineMode",
-      strings = { MiniIcons.get("mode", mode) .. " " },
+      hl = mode_hl,
+      strings = { mode },
     },
-    -- Filename
-    {
-      hl = "MiniStatuslineFilename",
-      strings = { filename },
-    },
-    -- Separator
-    {
-      hl = "MiniStatuslineSeparator",
-      strings = { "%=" },
-    },
+    "%<",
+    { hl = "MiniStatuslineFilename", strings = { filename } },
+    "%=",
   }
 
   if vim.diagnostic.is_enabled({ bufnr = 0 }) then
@@ -69,19 +58,21 @@ local content = function()
   end
 
   table.insert(groups, {
-    hl = "MiniStatuslineSearch",
+    hl = "MiniStatuslineFilename",
     strings = { search },
   })
 
   table.insert(groups, {
-    hl = "MiniStatuslineRecording",
+    hl = "DiagnosticWarn",
     strings = { recording ~= "" and "REC @" .. recording or "" },
   })
 
-  table.insert(groups, {
-    hl = "MiniStatuslineFiletype",
-    strings = { MiniIcons.get("filetype", vim.bo.filetype) },
-  })
+  if vim.bo.filetype ~= "" then
+    local ok, icon, icon_hl = pcall(MiniIcons.get, "filetype", vim.bo.filetype)
+    if ok then
+      table.insert(groups, { hl = icon_hl, strings = { icon, vim.bo.filetype } })
+    end
+  end
 
   return MiniStatusline.combine_groups(groups)
 end

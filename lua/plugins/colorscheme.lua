@@ -61,11 +61,4 @@ local function color_my_pencils(color)
   apply_transparency()
 end
 
--- Re-apply after any colorscheme change (e.g. :colorscheme) so transparency stays centralized.
-vim.api.nvim_create_autocmd("ColorScheme", {
-  callback = apply_transparency,
-})
-
 color_my_pencils()
-
-return { apply = apply_transparency }
