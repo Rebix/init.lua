@@ -2,6 +2,7 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 
 vim.opt.guicursor = ""
+vim.opt.cmdheight = 0
 
 vim.opt.expandtab = true
 vim.opt.tabstop = 2

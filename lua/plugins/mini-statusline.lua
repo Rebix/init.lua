@@ -1,6 +1,6 @@
 -- Statusline via mini.statusline with a custom content function: filename on
--- the left; diagnostic counts, search count, macro recording, and the filetype
--- with its nerd font icon on the right.
+the left; diagnostic counts, search count, macro recording, and the filetype
+with its nerd font icon on the right.
 local MiniStatusline = require("mini.statusline")
 local MiniIcons = require("mini.icons")
 
@@ -32,11 +32,25 @@ local diagnostic_config = {
 local content = function()
   local filename = MiniStatusline.section_filename({ trunc_width = 9999 })
   local search = MiniStatusline.section_searchcount({ trunc_width = 0 })
+  local mode = vim.bo.mode
   local recording = vim.fn.reg_recording()
 
   local groups = {
-    filename,
-    "%=",
+    -- Mode indicator (left side)
+    {
+      hl = "MiniStatuslineMode",
+      strings = { MiniIcons.get("mode", mode) .. " " },
+    },
+    -- Filename
+    {
+      hl = "MiniStatuslineFilename",
+      strings = { filename },
+    },
+    -- Separator
+    {
+      hl = "MiniStatuslineSeparator",
+      strings = { "%=" },
+    },
   }
 
   if vim.diagnostic.is_enabled({ bufnr = 0 }) then
@@ -55,24 +69,19 @@ local content = function()
   end
 
   table.insert(groups, {
-    hl = "MiniStatuslineFilename",
+    hl = "MiniStatuslineSearch",
     strings = { search },
   })
 
   table.insert(groups, {
-    hl = "DiagnosticWarn",
+    hl = "MiniStatuslineRecording",
     strings = { recording ~= "" and "REC @" .. recording or "" },
   })
 
-  -- Filetype icon and name at the far right, joined by a single space inside
-  -- one group so the icon's color covers both; skipped for buffers without a
-  -- filetype.
-  if vim.bo.filetype ~= "" then
-    local ok, icon, icon_hl = pcall(MiniIcons.get, "filetype", vim.bo.filetype)
-    if ok then
-      table.insert(groups, { hl = icon_hl, strings = { icon, vim.bo.filetype } })
-    end
-  end
+  table.insert(groups, {
+    hl = "MiniStatuslineFiletype",
+    strings = { MiniIcons.get("filetype", vim.bo.filetype) },
+  })
 
   return MiniStatusline.combine_groups(groups)
 end
@@ -83,6 +92,3 @@ MiniStatusline.setup({
     inactive = content,
   },
 })
-
--- Transparency is centralized in colorscheme.lua; re-apply after mini sets its highlights.
-require("plugins.colorscheme").apply()
