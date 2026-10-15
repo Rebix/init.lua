@@ -11,6 +11,16 @@ require("kanagawa").setup({
   },
 })
 
+require("rose-pine").setup({
+  variant = "moon",
+  dark_variant = "moon",
+  styles = {
+    bold = true,
+    italic = false,
+    transparency = true,
+  },
+})
+
 local transparent_groups = {
   "Normal",
   "NormalNC",
@@ -61,4 +71,4 @@ local function color_my_pencils(color)
   apply_transparency()
 end
 
-color_my_pencils()
+color_my_pencils("iceberg")

@@ -40,6 +40,8 @@ vim.pack.add({
   github("lewis6991/gitsigns.nvim"),
   github("nvim-mini/mini.nvim"),
   github("rebelot/kanagawa.nvim"),
+  github("rose-pine/neovim"),
+  github("cocopon/iceberg.vim"),
   github("mason-org/mason.nvim"),
   github("neovim/nvim-lspconfig"),
   github("mason-org/mason-lspconfig.nvim"),
