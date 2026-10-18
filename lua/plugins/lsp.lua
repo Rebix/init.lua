@@ -1,4 +1,5 @@
 local servers = {
+  "astro",
   "vtsls",
   "tailwindcss",
   "eslint",
@@ -26,11 +27,32 @@ vim.lsp.config("lua_ls", {
   },
 })
 
--- BasedPyright provides Python intelligence; Ruff owns linting and formatting.
+-- BasedPyright provides Python intelligence
 vim.lsp.config("ruff", {
   on_attach = function(client)
     client.server_capabilities.hoverProvider = false
   end,
+})
+
+-- BasedPyright type-checks
+vim.lsp.config("basedpyright", {
+  settings = {
+    basedpyright = {
+      disableOrganizeImports = true,
+      analysis = {
+        autoImportCompletions = true,
+        typeCheckingMode = "standard",
+      },
+    },
+  },
+})
+
+vim.lsp.config("tailwindcss", {
+  settings = {
+    tailwindCSS = {
+      classFunctions = { "cn", "clsx", "cva", "twMerge" },
+    },
+  },
 })
 
 require("mason-lspconfig").setup({
@@ -39,6 +61,7 @@ require("mason-lspconfig").setup({
 
 require("mason-tool-installer").setup({
   ensure_installed = {
+    "astro",
     "vtsls",
     "tailwindcss",
     "eslint",
@@ -56,9 +79,6 @@ require("mason-tool-installer").setup({
   run_on_start = true,
 })
 
--- Use Neovim's built-in completion UI for attached language servers.
-vim.opt.completeopt = { "menuone", "noselect", "popup" }
-
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(event)
     local map = function(mode, lhs, rhs, desc)
@@ -71,15 +91,5 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("n", "gO", vim.lsp.buf.document_symbol, "Document symbols")
     map("n", "K", vim.lsp.buf.hover, "Hover documentation")
     map("n", "<C-space>", vim.lsp.buf.signature_help, "Signature help")
-    map("i", "<C-space>", vim.lsp.buf.signature_help, "Signature help")
-
-    local client = vim.lsp.get_client_by_id(event.data.client_id)
-    if client and client:supports_method("textDocument/completion") then
-      vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
-    end
   end,
 })
-
-vim.keymap.set("i", "<C-s>", function()
-  vim.lsp.completion.get()
-end, { desc = "Trigger LSP completion" })

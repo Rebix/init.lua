@@ -1,6 +1,7 @@
 local treesitter = require("nvim-treesitter")
 
 local parsers = {
+  "astro",
   "bash",
   "c",
   "cpp",

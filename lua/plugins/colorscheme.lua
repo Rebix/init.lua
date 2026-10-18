@@ -45,6 +45,8 @@ local transparent_groups = {
   "PmenuKind",
   "PmenuExtra",
   "PmenuSbar",
+  "BlinkCmpDoc",
+  "BlinkCmpDocSeparator",
   "TelescopeNormal",
   "TelescopeBorder",
   "TelescopePromptNormal",
@@ -65,10 +67,13 @@ local function apply_transparency()
   end
 end
 
+vim.api.nvim_create_autocmd("ColorScheme", {
+  group = vim.api.nvim_create_augroup("transparency", { clear = true }),
+  callback = apply_transparency,
+})
+
 local function color_my_pencils(color)
-  color = color or "kanagawa-dragon"
-  vim.cmd.colorscheme(color)
-  apply_transparency()
+  vim.cmd.colorscheme(color or "kanagawa-dragon")
 end
 
-color_my_pencils("iceberg")
+color_my_pencils("rose-pine")

@@ -34,11 +34,14 @@ vim.pack.add({
   github("NMAC427/guess-indent.nvim"),
   github("nvim-telescope/telescope.nvim"),
   github("nvim-telescope/telescope-fzf-native.nvim"),
+  github("nvim-telescope/telescope-ui-select.nvim"),
   { src = github("ThePrimeagen/harpoon"), version = "harpoon2" },
   github("mbbill/undotree"),
   github("folke/which-key.nvim"),
   github("lewis6991/gitsigns.nvim"),
   github("nvim-mini/mini.nvim"),
+  github("saghen/blink.cmp"),
+  github("rafamadriz/friendly-snippets"),
   github("rebelot/kanagawa.nvim"),
   github("rose-pine/neovim"),
   github("cocopon/iceberg.vim"),
@@ -47,6 +50,7 @@ vim.pack.add({
   github("mason-org/mason-lspconfig.nvim"),
   github("WhoIsSethDaniel/mason-tool-installer.nvim"),
   github("stevearc/conform.nvim"),
+  github("nvim-mini/mini.indentscope"),
 }, { confirm = false, load = true })
 
 require("plugins.colorscheme")
@@ -57,6 +61,8 @@ require("plugins.telescope")
 require("plugins.harpoon")
 require("plugins.undotree")
 require("plugins.gitsigns")
+require("plugins.blink")
 require("plugins.lsp")
 require("plugins.formatting")
 require("plugins.which-key")
+require("plugins.mini-indentscope")

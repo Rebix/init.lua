@@ -4,6 +4,8 @@ vim.opt.relativenumber = true
 vim.opt.guicursor = ""
 vim.opt.cmdheight = 0
 
+vim.opt.showtabline = 0
+
 vim.opt.expandtab = true
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
@@ -49,6 +51,7 @@ vim.opt.mouse = "a"
 vim.opt.showmatch = true
 vim.opt.pumheight = 10
 vim.opt.pumblend = 10
+vim.opt.completeopt = { "menuone", "noselect", "popup" }
 vim.opt.fillchars = { eob = " " }
 
 vim.g.netrw_browse_split = 0

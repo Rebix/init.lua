@@ -18,12 +18,19 @@ telescope.setup({
 })
 
 pcall(telescope.load_extension, "fzf")
+pcall(telescope.load_extension, "ui-select")
 
 vim.keymap.set("n", "<leader><leader>", builtin.find_files, { desc = "Find files" })
 vim.keymap.set("n", "<leader>F", builtin.live_grep, { desc = "Find text" })
+vim.keymap.set("n", "<leader>fw", builtin.grep_string, { desc = "Find word under cursor" })
 vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find buffers" })
+vim.keymap.set("n", "<leader>fo", builtin.oldfiles, { desc = "Find recent files" })
 vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Find help" })
 vim.keymap.set("n", "<leader>fg", builtin.git_status, { desc = "Find git changes" })
+vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "Find diagnostics" })
+vim.keymap.set("n", "<leader>fs", builtin.lsp_document_symbols, { desc = "Find document symbols" })
+vim.keymap.set("n", "<leader>fS", builtin.lsp_dynamic_workspace_symbols, { desc = "Find workspace symbols" })
+vim.keymap.set("n", "<leader>fr", builtin.resume, { desc = "Find resume last picker" })
 
 local function pick_project()
   local dirs = {}
@@ -57,15 +64,7 @@ local function pick_project()
             return
           end
           local choice = entry.value or entry.display
-          local buffer = vim.api.nvim_get_current_buf()
-          local tab_is_fresh = #vim.api.nvim_list_wins() == 1
-            and vim.api.nvim_buf_get_name(buffer) == ""
-            and not vim.bo[buffer].modified
-          if not tab_is_fresh then
-            vim.cmd("tabnew")
-          end
           vim.cmd("tcd " .. vim.fn.fnameescape(choice))
-          builtin.find_files({ cwd = choice })
         end)
         return true
       end,

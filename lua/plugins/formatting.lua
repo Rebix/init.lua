@@ -1,6 +1,7 @@
 local conform = require("conform")
 
 local prettier_filetypes = {
+  astro = true,
   css = true,
   graphql = true,
   html = true,
@@ -10,7 +11,7 @@ local prettier_filetypes = {
   jsonc = true,
   less = true,
   markdown = true,
-  ["markdown.mdx"] = true,
+  mdx = true,
   scss = true,
   typescript = true,
   typescriptreact = true,
@@ -31,7 +32,7 @@ for filetype in pairs(prettier_filetypes) do
   formatters_by_ft[filetype] = tailwind_filetypes[filetype] and { "rustywind", "prettier" } or { "prettier" }
 end
 
-formatters_by_ft.python = { "ruff_organize_imports", "ruff_format" }
+formatters_by_ft.python = { "ruff_fix", "ruff_organize_imports", "ruff_format" }
 formatters_by_ft.lua = { "stylua" }
 
 conform.setup({
