@@ -51,6 +51,7 @@ vim.pack.add({
   github("WhoIsSethDaniel/mason-tool-installer.nvim"),
   github("stevearc/conform.nvim"),
   github("nvim-mini/mini.indentscope"),
+  github("catppuccin/nvim"),
 }, { confirm = false, load = true })
 
 require("plugins.colorscheme")

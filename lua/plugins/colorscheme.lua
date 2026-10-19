@@ -21,6 +21,15 @@ require("rose-pine").setup({
   },
 })
 
+require("catppuccin").setup({
+  flavor = "mocha",
+  transparent_background = true,
+  float = {
+    transparent = true,
+  },
+  no_italic = true,
+})
+
 local transparent_groups = {
   "Normal",
   "NormalNC",
@@ -76,4 +85,4 @@ local function color_my_pencils(color)
   vim.cmd.colorscheme(color or "kanagawa-dragon")
 end
 
-color_my_pencils("rose-pine")
+color_my_pencils("catppuccin")
